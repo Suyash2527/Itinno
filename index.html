@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Itinno - Travel</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="preloader">
+    <div class="loader-spinner"></div>
+    <div class="loader-text">Loading Itinno...</div>
+</div>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>Itinno</h2>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" class="nav-link" onclick="showSection('home')">Home</a></li>
+                <li><a href="#destinations" class="nav-link" onclick="showSection('destinations')">Destinations</a></li>
+                <li><a href="#hotels" class="nav-link" onclick="showSection('hotels')">Hotels</a></li>
+                <li><a href="#ai-planner" class="nav-link" onclick="showSection('ai-planner')">AI Planner</a></li>
+                <li><a href="#social" class="nav-link" onclick="showSection('social')">Social</a></li>
+                <li id="dashboardNav" class="hidden"><a href="#dashboard" class="nav-link" onclick="showSection('dashboard')">Dashboard</a></li>
+                <li id="loginNav"><button class="btn btn--outline nav-btn" onclick="openModal('loginModal')">Login</button></li>
+                <li id="registerNav"><button class="btn btn--primary nav-btn" onclick="openModal('registerModal')">Register</button></li>
+                <li id="logoutNav" class="hidden"><button class="btn btn--outline nav-btn" onclick="handleLogout()">Logout</button></li>
+            </ul>
+            <div class="nav-toggle" onclick="toggleNav()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="ring ring-1"></div>
+        <div class="ring ring-2"></div>
+        <div class="ring ring-3"></div>
+        <div class="floating-element float-1"></div>
+        <div class="floating-element float-2"></div>
+        <div class="floating-element float-3"></div>
+    </div>
+
+    <!-- Home Section -->
+    <section id="home" class="section active">
+        <div class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title shimmer-text">Itinno</h1>
+                <p class="hero-subtitle">Your Complete Travel Companion - AI Planning, Social Community & Seamless Bookings</p>
+                <div class="hero-buttons">
+                    <button class="btn btn--primary btn--lg" onclick="showSection('ai-planner')">Plan with AI</button>
+                    <button class="btn btn--outline btn--lg" onclick="showSection('destinations')">Explore Destinations</button>
+                </div>
+                <div class="hero-features">
+                    <div class="feature-highlight">🤖 AI Itinerary Planning</div>
+                    <div class="feature-highlight">👥 Travel Community</div>
+                    <div class="feature-highlight">🏨 Hotel Bookings</div>
+                    <div class="feature-highlight">📱 Complete Dashboard</div>
+                </div>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-number">15K+</div>
+                    <div class="stat-label">😊 Happy Travelers</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">25+</div>
+                    <div class="stat-label">📍 Destinations</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">4.9★</div>
+                    <div class="stat-label">⭐ Average Rating</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">🏨 Partner Hotels</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destinations Section -->
+    <section id="destinations" class="section">
+        <div class="container">
+            <h2 class="section-title">Featured Destinations</h2>
+            <div class="filter-tabs">
+                <button class="filter-tab active" onclick="filterDestinations('all')">All</button>
+                <button class="filter-tab" onclick="filterDestinations('Beach')">Beach</button>
+                <button class="filter-tab" onclick="filterDestinations('Historical')">Historical</button>
+                <button class="filter-tab" onclick="filterDestinations('Mountain')">Mountain</button>
+                <button class="filter-tab" onclick="filterDestinations('Spiritual')">Spiritual</button>
+            </div>
+            <div class="destinations-grid" id="destinationsGrid">
+                <!-- Destinations populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Hotels Section -->
+    <section id="hotels" class="section">
+        <div class="container">
+            <h2 class="section-title">Luxury Hotels & Resorts</h2>
+            <div class="hotels-filters">
+                <select class="form-control filter-select" id="locationFilter" onchange="filterHotels()">
+                    <option value="all">All Locations</option>
+                    <option value="Goa">Goa</option>
+                    <option value="Rajasthan">Rajasthan</option>
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Chennai">Chennai</option>
+                    <option value="Himachal Pradesh">Himachal Pradesh</option>
+                </select>
+                <select class="form-control filter-select" id="priceFilter" onchange="filterHotels()">
+                    <option value="all">All Prices</option>
+                    <option value="15000-20000">₹15,000 - ₹20,000</option>
+                    <option value="20000-25000">₹20,000 - ₹25,000</option>
+                    <option value="25000+">₹25,000+</option>
+                </select>
+            </div>
+            <div class="hotels-grid" id="hotelsGrid">
+                <!-- Hotels populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Planner Section -->
+    <section id="ai-planner" class="section">
+        <div class="container">
+            <h2 class="section-title">AI Travel Planner</h2>
+            <div class="planner-container">
+                <div class="planner-form-container">
+                    <div class="planner-form card">
+                        <div class="card__body">
+                            <h3>Plan Your Perfect Trip</h3>
+                            <form id="plannerForm" onsubmit="generateItinerary(event)">
+                                <div class="form-group">
+                                    <label class="form-label">Select Destinations</label>
+                                    <select class="form-control" id="plannerDestination" required>
+                                        <option value="">Choose destination...</option>
+                                        <option value="rajasthan">Rajasthan Royalty</option>
+                                        <option value="kerala">Kerala Backwaters</option>
+                                        <option value="goa">Goa Paradise</option>
+                                        <option value="golden-triangle">Golden Triangle</option>
+                                        <option value="kashmir">Kashmir Valley</option>
+                                        <option value="himachal">Himachal Hills</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Start Date</label>
+                                        <input type="date" class="form-control" id="startDate" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Duration (days)</label>
+                                        <select class="form-control" id="duration" required>
+                                            <option value="">Select...</option>
+                                            <option value="3">3 days</option>
+                                            <option value="5">5 days</option>
+                                            <option value="7">7 days</option>
+                                            <option value="10">10 days</option>
+                                            <option value="14">14 days</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Budget Range (₹)</label>
+                                    <select class="form-control" id="budget" required>
+                                        <option value="">Select budget...</option>
+                                        <option value="10000-15000">₹10,000 - ₹15,000</option>
+                                        <option value="15000-25000">₹15,000 - ₹25,000</option>
+                                        <option value="25000-40000">₹25,000 - ₹40,000</option>
+                                        <option value="40000+">₹40,000+</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Travel Style</label>
+                                    <select class="form-control" id="travelStyle" required>
+                                        <option value="">Choose style...</option>
+                                        <option value="adventure">Adventure</option>
+                                        <option value="cultural">Cultural</option>
+                                        <option value="relaxation">Relaxation</option>
+                                        <option value="spiritual">Spiritual</option>
+                                        <option value="luxury">Luxury</option>
+                                        <option value="budget">Budget</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Group Size</label>
+                                    <select class="form-control" id="groupSize" required>
+                                        <option value="">Select...</option>
+                                        <option value="1">Solo Travel</option>
+                                        <option value="2">Couple</option>
+                                        <option value="3-4">Small Group (3-4)</option>
+                                        <option value="5+">Large Group (5+)</option>
+                                    </select>
+                                </div>
+
+                                <button type="submit" class="btn btn--primary btn--full-width btn--lg">
+                                    ✨ Generate AI Itinerary
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="planner-result" id="plannerResult">
+                    <div class="loading-state hidden" id="loadingState">
+                        <div class="loader"></div>
+                        <p>AI is crafting your perfect itinerary...</p>
+                    </div>
+                    <div class="itinerary-display hidden" id="itineraryDisplay">
+                        <!-- Generated itinerary will appear here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Section -->
+    <section id="social" class="section">
+        <div class="container">
+            <h2 class="section-title">Travel Community</h2>
+            <div class="social-container">
+                <div class="social-sidebar">
+                    <div class="create-post-card card">
+                        <div class="card__body">
+                            <h4>Share Your Experience</h4>
+                            <button class="btn btn--primary btn--full-width" onclick="openModal('createPostModal')">
+                                📝 Create Post
+                            </button>
+                        </div>
+                    </div>
+                    <div class="trending-hashtags card">
+                        <div class="card__body">
+                            <h4>Trending</h4>
+                            <div class="hashtag-list">
+                                <span class="hashtag">#IncredibleIndia</span>
+                                <span class="hashtag">#TajMahal</span>
+                                <span class="hashtag">#Kerala</span>
+                                <span class="hashtag">#GoaVibes</span>
+                                <span class="hashtag">#RajasthanRoyalty</span>
+                                <span class="hashtag">#HimalayanViews</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="social-feed">
+                    <div class="social-posts" id="socialPosts">
+                        <!-- Social posts populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard" class="section">
+        <div class="container">
+            <h2 class="section-title">My Travel Dashboard</h2>
+            <div class="dashboard-container" id="dashboardContainer">
+                <div class="login-required card">
+                    <div class="card__body">
+                        <h3>Please Login</h3>
+                        <p>Please login to access your personal dashboard with bookings, itineraries, and travel stats.</p>
+                        <button class="btn btn--primary" onclick="openModal('loginModal')">Login Now</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Add this to the dashboard section in the HTML -->
+<div class="dashboard-section">
+  <div class="section-header">
+    <h3 class="section-title-small">📊 Travel Analytics</h3>
+  </div>
+  <div class="section-content">
+    <div class="analytics-grid">
+      <div class="analytics-chart">
+        <h4>Spending Breakdown</h4>
+        <div class="chart-container">
+          <div class="chart-bar" style="--value: 65%; --color: var(--color-primary);">
+            <span>Accommodation (65%)</span>
+          </div>
+          <div class="chart-bar" style="--value: 20%; --color: var(--color-warning);">
+            <span>Transport (20%)</span>
+          </div>
+          <div class="chart-bar" style="--value: 10%; --color: var(--color-success);">
+            <span>Food (10%)</span>
+          </div>
+          <div class="chart-bar" style="--value: 5%; --color: var(--color-error);">
+            <span>Activities (5%)</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="analytics-stats">
+        <h4>Monthly Spending</h4>
+        <div class="monthly-stats">
+          <div class="month-stat">
+            <span class="month">Jan</span>
+            <div class="stat-bar">
+              <div class="stat-fill" style="width: 40%"></div>
+            </div>
+            <span class="amount">₹12,500</span>
+          </div>
+          <div class="month-stat">
+            <span class="month">Feb</span>
+            <div class="stat-bar">
+              <div class="stat-fill" style="width: 70%"></div>
+            </div>
+            <span class="amount">₹22,000</span>
+          </div>
+          <div class="month-stat">
+            <span class="month">Mar</span>
+            <div class="stat-bar">
+              <div class="stat-fill" style="width: 60%"></div>
+            </div>
+            <span class="amount">₹18,750</span>
+          </div>
+          <div class="month-stat">
+            <span class="month">Apr</span>
+            <div class="stat-bar">
+              <div class="stat-fill" style="width: 90%"></div>
+            </div>
+            <span class="amount">₹28,500</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="analytics-insights">
+        <h4>Travel Insights</h4>
+        <div class="insight-item">
+          <div class="insight-icon">💰</div>
+          <div class="insight-text">
+            <strong>Average Trip Cost:</strong> ₹18,500
+          </div>
+        </div>
+        <div class="insight-item">
+          <div class="insight-icon">📅</div>
+          <div class="insight-text">
+            <strong>Most Visited Month:</strong> April
+          </div>
+        </div>
+        <div class="insight-item">
+          <div class="insight-icon">📍</div>
+          <div class="insight-text">
+            <strong>Favorite Destination:</strong> Goa
+          </div>
+        </div>
+        <div class="insight-item">
+          <div class="insight-icon">🏨</div>
+          <div class="insight-text">
+            <strong>Preferred Stay:</strong> Luxury Hotels
+          </div>
+        </div>
+      </div>
+      
+      <div class="analytics-goals">
+        <h4>Travel Goals</h4>
+        <div class="goal-item">
+          <div class="goal-progress">
+            <div class="progress-circle" style="--progress: 75">
+              <span>75%</span>
+            </div>
+          </div>
+          <div class="goal-info">
+            <h5>Annual Travel Budget</h5>
+            <p>₹1,50,000 / ₹2,00,000</p>
+          </div>
+        </div>
+        <div class="goal-item">
+          <div class="goal-progress">
+            <div class="progress-circle" style="--progress: 40">
+              <span>40%</span>
+            </div>
+          </div>
+          <div class="goal-info">
+            <h5>Destinations Visited</h5>
+            <p>8 / 20 planned</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal hidden">
+        <div class="modal-overlay" onclick="closeModal('loginModal')"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Welcome Back to Incredible India</h3>
+                <button class="modal-close" onclick="closeModal('loginModal')">&times;</button>
+            </div>
+            <form class="auth-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-control" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-control" name="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn btn--primary btn--full-width">Sign In</button>
+            </form>
+            <p class="auth-switch">Don't have an account? <a href="#" onclick="switchModal('loginModal', 'registerModal')">Register here</a></p>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal hidden">
+        <div class="modal-overlay" onclick="closeModal('registerModal')"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Join Incredible India Community</h3>
+                <button class="modal-close" onclick="closeModal('registerModal')">&times;</button>
+            </div>
+            <form class="auth-form" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-control" name="name" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-control" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-control" name="password" placeholder="Create a password" minlength="6" required>
+                </div>
+                <button type="submit" class="btn btn--primary btn--full-width">Create Account</button>
+            </form>
+            <p class="auth-switch">Already have an account? <a href="#" onclick="switchModal('registerModal', 'loginModal')">Sign in here</a></p>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="modal hidden">
+        <div class="modal-overlay" onclick="closeModal('bookingModal')"></div>
+        <div class="modal-content booking-modal-content">
+            <div class="modal-header">
+                <h3 id="bookingModalTitle">Book Your Journey</h3>
+                <button class="modal-close" onclick="closeModal('bookingModal')">&times;</button>
+            </div>
+            <div id="bookingModalContent">
+                <!-- Booking content populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Post Modal -->
+    <div id="createPostModal" class="modal hidden">
+        <div class="modal-overlay" onclick="closeModal('createPostModal')"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Share Your Travel Experience</h3>
+                <button class="modal-close" onclick="closeModal('createPostModal')">&times;</button>
+            </div>
+            <form class="auth-form" onsubmit="handleCreatePost(event)">
+                <div class="form-group">
+                    <label class="form-label">Post Title</label>
+                    <input type="text" class="form-control" name="title" placeholder="Give your experience a title..." required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Share Your Story</label>
+                    <textarea class="form-control" name="content" rows="4" placeholder="Tell us about your amazing experience..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Destination</label>
+                    <select class="form-control" name="destination" required>
+                        <option value="">Select destination...</option>
+                        <option value="Goa Paradise">Goa Paradise</option>
+                        <option value="Rajasthan Royalty">Rajasthan Royalty</option>
+                        <option value="Kerala Backwaters">Kerala Backwaters</option>
+                        <option value="Golden Triangle">Golden Triangle</option>
+                        <option value="Kashmir Valley">Kashmir Valley</option>
+                        <option value="Himachal Hills">Himachal Hills</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Add Hashtags</label>
+                    <input type="text" class="form-control" name="tags" placeholder="#IncredibleIndia #TravelDiaries #Adventure">
+                </div>
+                <button type="submit" class="btn btn--primary btn--full-width">Share Experience</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Toast -->
+    <div id="toast" class="toast hidden">
+        <div class="toast-content">
+            <span class="toast-icon">✅</span>
+            <span class="toast-message"></span>
+        </div>
+    </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
